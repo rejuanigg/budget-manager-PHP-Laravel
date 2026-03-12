@@ -3,8 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class transaction extends Model
+class Transaction extends Model
 {
-    //
-}
+    public function categories():BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function users():BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+};
