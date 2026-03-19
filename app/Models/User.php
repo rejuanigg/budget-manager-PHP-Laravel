@@ -48,8 +48,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function transactions():HasMany
+    public function transaction():HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function categories():HasMany
+    {
+        return $this->hasMany(Category::class);
     }
 }
