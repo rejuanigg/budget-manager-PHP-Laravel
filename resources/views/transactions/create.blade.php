@@ -38,13 +38,18 @@
         <br>
 
         <labeL>Categoria</label>
-        <select name="category" required>
+        <select name="category_id" required>
             @foreach ($categorias as $categoria)
                 <option value="{{$categoria->id}}">
-                    {{categoria->name}}
+                    {{$categoria->name}}
                 </option>
             @endforeach
         </select>
+        <br>
+        <a href="{{route('categories.create')}}">Añadir nueva categoria</a>
+
+        <br>
+        <br>
 
         <button type="submit">Enviar</button>
     </form>

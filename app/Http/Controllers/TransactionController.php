@@ -16,7 +16,7 @@ class TransactionController extends Controller
     {
         $misTransacciones = $request->user()->transactions()->get();
 
-        return view('transactions.index', compact('misTransacciones'));
+        return view('transactions.list', compact('misTransacciones'));
     }
 
     /**

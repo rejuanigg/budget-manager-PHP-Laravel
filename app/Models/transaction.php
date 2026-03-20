@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transaction extends Model
 {
-    public function categories():BelongsTo
+    public function category():BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -17,4 +17,13 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'users_id',
+        'transaction_date',
+        'type',
+        'detail',
+        'amount',
+        'category_id'
+    ];
 };

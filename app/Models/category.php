@@ -18,4 +18,10 @@ class Category extends Model
     {
         return $this->belongsTo(User::class);
     }
-};
+
+    protected $fillable = [
+        'users_id',
+        'name',
+    ];
+
+}
