@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreTransactionRequest;
 use Illuminate\View\View;
 
 
@@ -32,15 +33,9 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreTransactionRequest $request): RedirectResponse
     {
-        $validated=$request->validate([
-            'transaction_date' => 'required|date',
-            'detail' => 'nullable|string|max:250',
-            'amount' => 'required|numeric|min:0',
-            'type' => 'required|in:income,expense',
-            'category_id' => 'required|exists:categories,id'
-        ]);
+        $validated=$request->validated();
 
         $request->user()->transactions()->create($validated);
 
