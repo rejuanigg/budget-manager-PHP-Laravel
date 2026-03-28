@@ -44,7 +44,7 @@ class CategoryController extends Controller
         ]);
 
         $request->user()->categories()->create($validated);
-        return redirect()->route('transactions.create');
+        return redirect()->route('categories.index');
 
     }
 
