@@ -27,5 +27,8 @@
         @endforeach
 
     </table>
+    <br>
+    <br>
+    <a href=" {{route('transactions.create')}} ">Volver al Inicio</a>
 </body>
 </html>

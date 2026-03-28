@@ -16,7 +16,7 @@ class CategoryController extends Controller
     {
         $misCategorias = $request->user()->categories()->get();
 
-        return view('transactions.create', compact('misCategorias'));
+        return view('categories.list-category', compact('misCategorias'));
 
     }
 

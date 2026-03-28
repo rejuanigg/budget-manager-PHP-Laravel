@@ -19,9 +19,13 @@
         <br>
         <button type="submit">Enviar</button>
         <br>
-        <a href="{{ route('transactions.create') }}">Volver</a>
+
 
     </form>
-
+    <br>
+    <a href="{{ route('transactions.create') }}">Volver</a>
+    <br>
+    <br>
+    <a href="{{ route('categories.index') }}">Ir a Lista de Categorias</a>
 </body>
 </html>
