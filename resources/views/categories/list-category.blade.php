@@ -12,6 +12,11 @@
             {{ session('error') }}
         </div>
     @endif
+        @if (session('exito'))
+        <div style="background-color: rgb(109, 255, 112); padding: 10px; margin-bottom: 10px;">
+            {{ session('exito') }}
+        </div>
+    @endif
     <h1>Mis Categorias</h1>
     <table style="width: 50%" border="2px">
         <tr>
