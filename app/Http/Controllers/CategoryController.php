@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -75,8 +78,18 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        abort_if($category->user_id !== Auth::id(), 403);
+
+        try{
+            $category->delete();
+
+            return redirect()->route('categories.index');
+        }
+        catch(QueryException $qe){
+            return redirect()->route('categories.index')->with('error', 'No puedes borrar una categoria que tiene transacciones asignadas.');
+        };
+
     }
 }
