@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTransactionRequest;
+use App\Models\Transaction;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 
@@ -69,8 +72,12 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Transaction $transaction)
     {
-        //
+        abort_if($transaction->user_id !== Auth::id(), 403);
+
+        $transaction->delete();
+
+        return redirect()->route('transactions.index');
     }
 }

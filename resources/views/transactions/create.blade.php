@@ -46,21 +46,23 @@
             @endforeach
         </select>
         <br>
-        <a href="{{route('categories.create')}}">Añadir nueva categoria</a>
-
-        <br>
         <br>
 
         <button type="submit">Enviar</button>
     </form>
+    <br>
+    <br>
+    <a href="{{route('categories.create')}}">Añadir nueva categoria</a>
+    <a href="{{route('transactions.index')}}">Ver mis transacciones</a>
+
     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </body>
 </html>

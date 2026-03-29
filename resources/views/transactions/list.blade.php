@@ -8,13 +8,14 @@
 </head>
 <body>
     <h1>Mis transacciones</h1>
-    <table style="width:100%" border="2px">
+    <table style="width:80%" border="2px">
         <tr>
             <th>Fecha</th>
             <th>Detalle</th>
             <th>Monto</th>
             <th>Tipo</th>
             <th>Categoria</th>
+            <th>Opciones</th>
         </tr>
         @foreach ($misTransacciones as $item)
             <tr>
@@ -23,8 +24,16 @@
                 <td>{{$item->amount}}</td>
                 <td>{{$item->type}}</td>
                 <td>{{$item->category->name}}</td>
+                <td>
+                    <form action="{{route('transactions.destroy', $item->id)}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Eliminar ❎</button>
+                    </form>
+                </td>
             </tr>
         @endforeach
+
 
     </table>
     <br>
