@@ -27,6 +27,7 @@
                         @method('DELETE')
                         <button type="submit">Eliminar ❎</button>
                     </form>
+                    <a href=" {{route('categories.edit', $item->id)}} ">Editar ✏️</a>
                 </td>
             </tr>
         @endforeach

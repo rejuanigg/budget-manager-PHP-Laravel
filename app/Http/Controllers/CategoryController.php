@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -36,15 +37,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validated=$request->validate([
-            'name'=>[
-                'min:3',
-                'max:150',
-                'required',
-                'string',
-                Rule::unique('categories')->where('user_id', $request->user()->id)
-            ]
-        ]);
+        $validated=$request->validated();
 
         $request->user()->categories()->create($validated);
         return redirect()->route('categories.index');
@@ -62,17 +55,25 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        abort_if($category->user_id !== Auth::id(), 403);
+
+        return view('categories.edit-category', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreCategoryRequest $request, Category $category)
     {
-        //
+        abort_if($category->user_id !== Auth::id(), 403);
+
+        $validated=$request->validated();
+
+        $category->update($validated);
+
+        return redirect()->route('categories.index')->with('exito', 'Modificado correctamente');
     }
 
     /**
