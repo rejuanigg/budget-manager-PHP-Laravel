@@ -28,7 +28,7 @@ En nuestro caso usamos esto para separar la funcion store dentro del controlador
 ##Ownership Validation
 Lo que significa es que el usuario logeado solo pueda crear, ver, editar y borrar datos que el mismo ha creado.
 Esto ayuda a la seguridad y fiabilidad del sistema.
- 
+
 ##Service Layer
 Hace que un sistema sea mas organizado, también usa el principio de SoC, porque por ejemplo, no podemos poner la lógica de un saldo final, porque ocasionaria que al momento de querer migrar a celulares usemos API, lo cual nos afectaria, porque si lo hacemos en el controller devolvemos vistas, pero si lo hacemos desde el service Layer devolvemos datos json. Por ejemplo, en un controlador. Ademas esto hace que nuestro sistema no sea tan escalable, ya que al querer usar API, vamos a tener fallas. 
 

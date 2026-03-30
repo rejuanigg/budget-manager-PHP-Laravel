@@ -40,6 +40,7 @@ class CategoryController extends Controller
         $validated=$request->validated();
 
         $request->user()->categories()->create($validated);
+
         return redirect()->route('categories.index');
 
     }
