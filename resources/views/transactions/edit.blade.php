@@ -8,43 +8,47 @@
 </head>
 <body>
     <h1>Eeditar Transaccion</h1>
-    <form action="{{route('transactions.edit')}}" method="post">
+    <form action="{{route('transactions.update', $transaction->id)}}" method="post">
+        @csrf
+        @method('PATCH')
         <span>Cambia la fecha</span>
         <br>
-        <input type="date" name="transaction_date">
+        <input type="date" name="transaction_date" value="{{$transaction->transaction_date}}">
+        <br>
+        <br>
 
         <span>Cambia el detalle</span>
         <br>
-        <input type="text" placeholder="Cambia el detalle" name="detail">
+        <input type="text" placeholder="Cambia el detalle" name="detail" value="{{$transaction->detail}}">
         <br>
         <br>
 
         <span>Cambia el monto</span>
         <br>
-        <input type="number" placeholder="Cambiá el monto" name="amount">
+        <input type="number" placeholder="Cambiá el monto" name="amount" value="{{$transaction->amount}}">
         <br>
         <br>
 
         <span>Cambia el tipo</span>
         <br>
-        @foreach ($transaction as $item)
-            <select name="type" >
-                <option value="{{$item->type}}">{{$item->type}}</option>
-            </select>
-        @endforeach
+        <select name="type">
+            <option value="expense" @selected($transaction->type == 'expense')>Gasto</option>
+            <option value="income" @selected($transaction->type == 'income')>Ingreso</option>
+        </select>
         <br>
         <br>
 
         <span>Cambia de Categoria</span>
         <br>
-        @foreach ($categories as $item)
-            <select name="categories" >
-                <option value="{{$item->id}}">
+        <select name="category_id">
+            @foreach ($categories as $item)
+                <option value="{{$item->id}}" @selected($transaction->category_id == $item->id)>
                     {{$item->name}}
                 </option>
-            </select>
-        @endforeach
-
+            @endforeach
+        </select>
+        <button type="submit">Enviar</button>
     </form>
+    <a href="{{route('transactions.index')}}">Volver a la lista</a>
 </body>
 </html>
