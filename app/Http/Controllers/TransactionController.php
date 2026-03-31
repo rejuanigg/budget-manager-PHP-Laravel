@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTransactionRequest;
+use App\Http\Requests\UpdateTransactionRequest;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -69,9 +70,15 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTransactionRequest $request, Transaction $transaction)
     {
-        //
+        abort_if($transaction->user_id !== Auth::id(), 403);
+
+        $validated = $request->validated();
+
+        $transaction->update($validated);
+
+        return redirect()->route('transactions.index')->with('success', 'Actualizado correctamente.');
     }
 
     /**
