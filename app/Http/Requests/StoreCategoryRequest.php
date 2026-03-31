@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class StoreCategoryRequest extends FormRequest
