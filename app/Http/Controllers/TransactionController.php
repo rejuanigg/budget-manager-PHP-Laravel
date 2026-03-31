@@ -56,9 +56,14 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, Transaction $transaction)
     {
-        //
+        abort_if($transaction->user_id !== Auth::id(), 403);
+
+        $categories = $request->user()->categories()->get();
+
+        return view('transactions.edit', compact( 'transaction', 'categories'));
+
     }
 
     /**
