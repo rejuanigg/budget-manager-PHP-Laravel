@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use App\Models\Transaction;
-use App\Models\User;
+use App\Services\TransactionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -17,6 +17,11 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct(
+        private TransactionService $service
+    )
+    {}
 
     public function index(Request $request): View
     {
@@ -40,9 +45,8 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request): RedirectResponse
     {
-        $validated=$request->validated();
 
-        $request->user()->transactions()->create($validated);
+        $this->service->store($request->validated(),Auth::id());
 
         return redirect()->route('transactions.index');
     }
@@ -75,9 +79,7 @@ class TransactionController extends Controller
     {
         abort_if($transaction->user_id !== Auth::id(), 403);
 
-        $validated = $request->validated();
-
-        $transaction->update($validated);
+        $this->service->update($transaction, $request->validated());
 
         return redirect()->route('transactions.index')->with('success', 'Actualizado correctamente.');
     }
@@ -89,7 +91,7 @@ class TransactionController extends Controller
     {
         abort_if($transaction->user_id !== Auth::id(), 403);
 
-        $transaction->delete();
+        $this->service->destroy($transaction);
 
         return redirect()->route('transactions.index');
     }
