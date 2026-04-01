@@ -17,6 +17,7 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index(Request $request): View
     {
         $misTransacciones = $request->user()->transactions()->get();
