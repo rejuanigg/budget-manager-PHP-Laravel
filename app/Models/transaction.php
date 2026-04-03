@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Ramsey\Collection\Set;
 
 class Transaction extends Model
@@ -20,6 +21,11 @@ class Transaction extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tags():BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
         public function scopeExpenses (Builder $query): void
     {
         $query->where('type', 'expense');
@@ -30,10 +36,10 @@ class Transaction extends Model
         $query->where('type', 'income');
     }
 
-    public function translatedType():Attribute
+    public function type():Attribute
     {
         return Attribute::make(
-            get: fn() => match($this->getRawOriginal('type')) {
+            get: fn(string $value) => match($value) {
                 'income'=> 'Ingreso',
                 'expense'=>'Gasto',
                 default=>'Sin tipo'

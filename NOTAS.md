@@ -1,4 +1,4 @@
-##Flujo de un HTTP Request en Laravel
+## Flujo de un HTTP Request en Laravel
 
 Cuando el usuario presiona ENTER el request viaja hasta
 index.php donde captura al request y lo redirecciona a app.php.
@@ -8,29 +8,60 @@ En este punto app.php envia el request por tres caminos, a web, command y health
 Una vez en web.php, el sistema recibe la aplicación y redirige a los controladores, donde se ejectuan funciones de validación y redireccionamiento tras recibir la solicitud. 
 Finalmente, se envia a una vista en la carpeta View.
 
-##Middleware
+## Middleware
 Lo que hace es brindar un mecanismo, donde antes de recibir el http request, verifica que estemos logeados, y si no lo estamos nos manda a la pagina de register, brindando seguridad.
 
-##Separation of Concerns
+## Separation of Concerns
 Esto es algo como una separación de áreas, lo que nos recomienda este principio de arquitectura es que mientras mas abstractos esten los conceptos mas separadas estaran las áreas, por ejemplo, a la hora de crear un sistema donde tengamos un área de envios, donde se recibe el pedido, se envia la solicitud a los cocineros, y ademas se asigna un repartidor, es mejor tener un área que haga cada una de las cosas por separado que tenerlas juntas, lo que mejora el mantenimiento, y escalabilidad de un sistema.
 
-##don't repeat yourself
+## don't repeat yourself
 Nos dice que para hacer nuestro código mas rapido, y mantenible, es mejor no repetir la misma logica en varias partes dentro del sistema, lo cual mejora el rendimiento y mantenimiento de nuestro sistema. Por ejemplo; En este sistema tuve un problema, porque yo creía que para mostrar una lista de categorias dentro de la pagina de creacion de transacciones debia retornar el index del controlador de categorias a la pagina de creaciones.
 
-##Mass Assignament Protection
+## Mass Assignament Protection
 Es un protocolo de proteccion frente a problemas de seguridad con los http request. El problema que resuelve es; cuando un usuario con malas intenciones, hace un http request o envia un formulario con muchisimos datos buscando asignar masivamente datos, este protocolo lo bloquea. Es por ello que usamos $fillable, para permitir que datos si recibiran una asignacion masiva de parte de usuarios.
 
-##Form Request
+## Form Request
 Es una manera de proteger a mayor escala los datos, y asegurarnos de recibir los correctos.
 Utiliza un rule y un authorize, el rule propone reglas como en una query de MySQL. Y authorize verifica que el usuario esté correctamente logeado. 
 En nuestro caso usamos esto para separar la funcion store dentro del controlador para cumplir con el principio de arquitectura SoC.
 
-##Ownership Validation
+## Ownership Validation
 Lo que significa es que el usuario logeado solo pueda crear, ver, editar y borrar datos que el mismo ha creado.
 Esto ayuda a la seguridad y fiabilidad del sistema.
 
-##Service Layer
+## Service Layer
 Hace que un sistema sea mas organizado, también usa el principio de SoC, porque por ejemplo, no podemos poner la lógica de un saldo final, porque ocasionaria que al momento de querer migrar a celulares usemos API, lo cual nos afectaria, porque si lo hacemos en el controller devolvemos vistas, pero si lo hacemos desde el service Layer devolvemos datos json. Por ejemplo, en un controlador. Ademas esto hace que nuestro sistema no sea tan escalable, ya que al querer usar API, vamos a tener fallas. 
 
-##Conventional Commit
+## Conventional Commit
 Lo usé para mejorar mi escritura de commmits, ya que he visto que es una forma convencional de escribirlos, por lo que lo implemente buscando practicar para que a futuro los mensajes sean clartos para quienes sean mis compañeros de trabajos y para entender yo mismo mis propios commits.
+
+## Route Model Binding
+Usa el id que viene desde el URL, lo recibe y lo busca en la base de datos, si no lo encuentra manda un 404.
+El problema que resuelve es cuando un usuario desea modificar los datos 
+En el proyecto se uso para la edicion tanto de categorias y de transacciones.
+
+## try/catch
+try / catch captura los errores a la hora de la ejecucion. 
+
+## Flash Messages
+Son mensajes que podemos enviar al usuario al concretar una tarea o cuando el usuario intenta hacer algo que no está permitido como intentar usar letras en "monto", en nuestro proyecto.
+
+## Datos estáticos vs dinámicos en Blade
+Los datos estáticos como por ejemplo los datos de tipo "type" que solo pueden ser dos "expenses" o "incomes", y luego los datos dinamicos que son traidos desde una base de datos y mostrados, como por ejemplo las categorias, que mostramos una y cada una de las creadas por el usuario a la hora de crear una nueva transaccion.
+
+## Null Coalescing Operator (??)
+Este operador resultó muy util en un momento, por ejemplo, mediante el route model binding, en el request de categorias, cuando queriamos editar teniamos una alternativa que ignoraba si el id mostrado en el URL era el mismo que estabamos modificando, y sino le mandabamos un id 0 que mostraba error.
+
+## @selected en Blade
+La funcion que le encontramos es la siguiente: El usuario a la hora de editar necesita ver sus selecciones recientes, permite una mejor experiencia para el usuario, evita confusiones, en fin es un poco de UX. Ahora, nosotros lo implementamos para categorias y tipos de transacciones. Entendi que es importante que el usuario observe las categorias que tuvo previamente seleccionada porque de este modo no se confunde, una confusion de categorias, cuando tengamos el sistema terminado, puede llegar a modificar lo que el usuario ve en sus finanzas. Lo mismo sucederia con los tipos de transaccion pero un poco peor, porque esto modifica el desglose de los gastos del usuario.
+
+## Eloquent Scopes
+
+Estos lo añadimos pero no lo implementamos, porque es una forma facil de acceder a los datos de manera mas eficaz. Por ejemplo, en vez de hacer "$transacciones->$types->'income'", hacemos "$transacciones->incomes()"
+
+## Eloquent Accessors
+
+A los Accessors lo usamos principalmente para mejorar la experiencia de usuario, porque el usuario normalmente veia 'expenses' cuando el seleccionaba 'Gastos', pero ahora ve 'Gastos'. Creo que en sistemas de finanzas es imprescindible la correcta interpretacion, ya que un mal movimiento puede alterar el conocimiento propio de los gastos, y hacer que una herramienta se vuelva un problema.
+
+## Mutators
+A mutators lo usamos para guardar en la base de datos los valores de manera correcta, por ejemplo, a la hora de recibir un numero de telefono debemos quitarle los espacios o giuones que a veces suelen poner los usuarios. utilizamos el set() con la misma logica que el get pero con distinta funcion y direccion 

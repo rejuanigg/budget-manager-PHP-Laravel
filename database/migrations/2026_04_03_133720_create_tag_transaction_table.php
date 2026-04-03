@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('tag_transaction', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tag_id')
+            ->constrained('tags')
+            ->restrictOnDelete();
+            $table->foreignId('transaction_id')
+            ->constrained('transactions')
+            ->restrictOnDelete();
             $table->timestamps();
         });
     }
