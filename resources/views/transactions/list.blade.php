@@ -22,7 +22,7 @@
                 <td>{{$item->transaction_date}}</td>
                 <td>{{$item->detail}}</td>
                 <td>{{$item->amount}}</td>
-                <td>{{$item->type}}</td>
+                <td>{{$item->translatedType}}</td>
                 <td>{{$item->category->name}}</td>
                 <td>
                     <form action="{{route('transactions.destroy', $item->id)}}" method="post">

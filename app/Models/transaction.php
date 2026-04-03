@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Ramsey\Collection\Set;
 
 class Transaction extends Model
 {
@@ -27,6 +28,25 @@ class Transaction extends Model
     public function scopeIncomes (Builder $query): void
     {
         $query->where('type', 'income');
+    }
+
+    public function translatedType():Attribute
+    {
+        return Attribute::make(
+            get: fn() => match($this->getRawOriginal('type')) {
+                'income'=> 'Ingreso',
+                'expense'=>'Gasto',
+                default=>'Sin tipo'
+            }
+        );
+    }
+
+    public function detail():Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => ucfirst($value),
+            set: fn(string $value) =>strtolower(trim($value))
+        );
     }
 
     protected $fillable = [
