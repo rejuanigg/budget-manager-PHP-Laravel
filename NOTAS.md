@@ -65,3 +65,33 @@ A los Accessors lo usamos principalmente para mejorar la experiencia de usuario,
 
 ## Mutators
 A mutators lo usamos para guardar en la base de datos los valores de manera correcta, por ejemplo, a la hora de recibir un numero de telefono debemos quitarle los espacios o giuones que a veces suelen poner los usuarios. utilizamos el set() con la misma logica que el get pero con distinta funcion y direccion 
+
+## API REST vs Vistas HTML
+El api REST lo que hace es, segun los datos que recibimos en forma de json lo procesa y lo podemos usar como queramos y donde queramos, en cambio las vistas html, solo pueden ser mostrada en una web.
+
+## Autenticación por tokens vs sesiones
+Autenticar por tokens significa que el sistema busca en sus funciones, en el caso de laravel usa API Tokens, crea un token unico para cada usuario registrado, este puede durar años. Por otro lado autenticarse por sesiones significa que una vez que el usuario se registra se le asigna un id unico tambien, pero este es recuperado por las cookies del navegador en vez de ser recuperadas por la base de datos,
+
+## Sanctum y HasApiTokens
+Sanctum nos brinda la posibilidad de autenticar de dos maneras mdiante tokens API Tokens y mediante sesiones con SPA Authentication, API tokens maneja la autenticacion mediante tokens, lo que significa que el sistema crea un token unico. Y SPA crea una autenticacion utilizando datos de sesiones previas que son creados al registrarse dentro del navegador, como las cookies.
+HasApiTokens es un trait que nos brinda herramientas para usar tokens, una de ellas es crearlo, tambien con HasApiTokens podemos cambiar el cifrado del Token y pasarlo a texto plano mediante plainTextToken, que proviene de NewAccessToken. De este modo podemos mostrarle al usuario su token luego de ser creado. Ademas podemos iterar con este token mediante la herramienta tokens proveniente de HasApiTokens. 
+
+## Bearer Token en headers
+Lo que hace esto es recibir el request, y como está en el header por preferencia de que alli los datos se manejan mas rapidos y son mas seguros. Lo recibe el Authenticator, antes de que vaya a la base de datos, luego lo compara con los datos del usuario, con el token de la base de datos, y verifica si está vencido o no existe, si existe pasa al transaction controller donde guarda los datos.
+
+## Api/TransactionController separado
+En esta carpeta se traen todos los datos que provienen del resourse,que es donde traemos los archivos de la base sde datos y los transformamos en un array, y en el TransactionController de la carpeta API, lo modificamos y lo convertimos a un JSON.
+
+## routes/api.php y apiResource
+api.php funciona casi de la misma forma que web.php, se usa para cumplir con la definicion de arquitectura de software SoC, su uso es para tomar los datos del usuario verificado, ya mediante Sanctum, y luego enviarlo a el controlador de las API.
+apiResource nos ayuda a que laravel cree las rutas para el sistema CRUD y que las conecte finalmente con el controlador.
+
+## API Resources (TransactionResource)
+Aqui en transaction Resouse lo que hacemos es transformar los datos que necesitemos y que sean necesarios y seguros, transformarlos a un ARRAY para luego ser transformado en una API.
+
+## collection() vs recurso individual
+Collection lo que hace, a diferencia de traer un solo elemento para usarlo en una funcion como por ejemplo show(), es que ensambla los datos tipo array en una coleccion de datos tipo json. Pasa dato por dato por el TransactionResourse para formatearlo identicamente y lo envuelve en una respuesta json
+
+## $this dentro de un Resource
+
+Dentro de un Resource el uso de $this es para indicar el objeto de dicha clase de la que se esta usando, osea si tenemos una clase llamada trabajo, y un objeto que tiene como atributo un nombre, para llamar a ese nombre usamos $this. En el caso de Resourse lo usamos para traer los datos, renombrarlo y devolverlo como array.
