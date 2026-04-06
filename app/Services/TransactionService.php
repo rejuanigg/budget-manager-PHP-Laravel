@@ -8,7 +8,7 @@ class TransactionService
 {
     public function store (array $data, int $userId): Transaction
     {
-        $data['user_id'] = $userId;  
+        $data['user_id'] = $userId;
         return Transaction::create($data);
     }
 

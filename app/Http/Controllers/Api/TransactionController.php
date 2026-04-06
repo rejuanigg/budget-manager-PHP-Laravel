@@ -4,14 +4,49 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TransactionResource;
+use App\Http\Requests\StoreTransactionRequest;
+use App\Http\Requests\UpdateTransactionRequest;
+use App\Services\TransactionService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Transaction;
 
 class TransactionController extends Controller
 {
+    public function __construct(
+        private TransactionService $service
+    )
+    {}
+
     public function index(Request $request)
     {
         $misTransacciones = $request->user()->transactions()->get();
 
-        return TransactionResource::collection($misTransacciones);;
+        return TransactionResource::collection($misTransacciones);
+    }
+
+    public function store(StoreTransactionRequest $request)
+    {
+        $nuevaTransaccion = $this->service->store($request->validated(), Auth::id());
+
+        $resource = new TransactionResource($nuevaTransaccion);
+
+        return $resource->response()->setStatusCode(201);
+    }
+
+    public function update(UpdateTransactionRequest $request, Transaction $transaction)
+    {
+        $editarTransaccion = $this->service->update($transaction, $request->validated());
+
+        $resource = new TransactionResource($editarTransaccion);
+
+        return $resource->response()->setStatusCode(200);
+    }
+
+    public function destroy(Transaction $transaction)
+    {
+        $eliminarTransaccion = $this->service->destroy($transaction);
+
+        return response()->noContent();
     }
 }
