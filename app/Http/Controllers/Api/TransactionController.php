@@ -36,6 +36,8 @@ class TransactionController extends Controller
 
     public function update(UpdateTransactionRequest $request, Transaction $transaction)
     {
+        abort_if($transaction->user_id !== Auth::id(), 403);
+
         $editarTransaccion = $this->service->update($transaction, $request->validated());
 
         $resource = new TransactionResource($editarTransaccion);
@@ -45,7 +47,9 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
-        $eliminarTransaccion = $this->service->destroy($transaction);
+        abort_if($transaction->user_id !== Auth::id(), 403);
+
+        $this->service->destroy($transaction);
 
         return response()->noContent();
     }
