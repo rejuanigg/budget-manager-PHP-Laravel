@@ -115,3 +115,5 @@ Lo utilizamos para probar el estado de las nuevas funciones API, según lo proba
 ## new Objet
 Es una instancia, crea un objeto en la memoria PHP pero no lo registra en la BD.
 
+## ->names()
+Esta funcion hace que cuando queremos anteponer un nombre antes de una ruta, por ejemplo, en nuestro caso usamos api.transactions, esto nos sirvio para arreglar un error con las rutas, al tener un controlador que recibian las mismas transacciones, se sobrescribio la ruta original por la del api, por lo tanto, nos enviaba a una ruta sin vista. Lo solucionamos añadiendo la funcion ->name('api.') en el api.php.

@@ -37,7 +37,7 @@
         <br>
         <br>
 
-        <labeL>Categoria</label>
+        <label>Categoria</label>
         <select name="category_id" required>
             @foreach ($categorias as $categoria)
                 <option value="{{$categoria->id}}">
