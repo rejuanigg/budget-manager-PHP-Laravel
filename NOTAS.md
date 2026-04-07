@@ -138,3 +138,8 @@ Sirve para poner un http code como predeterminado en la operacion, es decir, en 
 ## ¿Porque un test debe ser autosuficiente?
 En mi test tuve un error y es que al principio a la hora de crear una transaccion apunté a una categoria con su id en especifico, pero esto no es valido, porque cuando un tercero desee testear va a intentar correr el test y le va a dar error, y es porque mi bd no es la misma bd que su usuario.
 Por lo tanto lo solucionamos creando una categoria dentro del test. De esta manera el test depende simple y llanamente de si mismo, lo que lo hace autosuficiente.
+
+## assertDatabaseHas()
+Esta funcion verifica que los elementos en la tabla coincida con los elementos buscados en el parametro clave/valor, recibe dos parametros assertDatabaseHas(p1,p2), en p1 va el nombre de la tabla y en el p2 va en un array los datos que queremos buscar si coinciden.     
+Por ejemplo; assertDatabaseHas('transactions', ['amount'=>'1231']);
+
