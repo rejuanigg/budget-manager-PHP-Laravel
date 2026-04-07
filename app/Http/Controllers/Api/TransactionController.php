@@ -10,6 +10,7 @@ use App\Services\TransactionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use App\Models\User;
 
 class TransactionController extends Controller
 {
@@ -54,3 +55,5 @@ class TransactionController extends Controller
         return response()->noContent();
     }
 }
+
+
