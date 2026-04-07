@@ -95,3 +95,23 @@ Collection lo que hace, a diferencia de traer un solo elemento para usarlo en un
 ## $this dentro de un Resource
 
 Dentro de un Resource el uso de $this es para indicar el objeto de dicha clase de la que se esta usando, osea si tenemos una clase llamada trabajo, y un objeto que tiene como atributo un nombre, para llamar a ese nombre usamos $this. En el caso de Resourse lo usamos para traer los datos, renombrarlo y devolverlo como array.
+
+## response()
+Usamos reponse porque nos sirve para personalizar los HTTP codes.
+
+#### HTTP CODE: 200
+Significa que salió bien la operacion, pero depende mucho del tipo, por ejemplo para un GET significa que se mostró correctamente en el body.
+En el Put o POST significa que envia el resultado de la accion segun sea el caso
+
+#### HTTP CODE: 201
+Significa que fue correctamente creado
+
+#### HTTP CODE: 204
+Significa que se ha borrado correctamente y que no hay nada para mostrar 
+
+## Thunder Client
+Lo utilizamos para probar el estado de las nuevas funciones API, según lo probado, se trata de una herramienta util para el testeo permite utilizar datos personalizados, lo cual me parece genial porque no hace falta hacer una inyeccion de datos, sino solo poner datos temporales para el test. Ademas permite usar varias acciones como PUT, POST, GET, DELETE, PATCH, por lo tanto a mi parecer es muy util para proyectos a futuro con datos API.
+
+## new Objet
+Es una instancia, crea un objeto en la memoria PHP pero no lo registra en la BD.
+
