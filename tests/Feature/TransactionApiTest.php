@@ -2,6 +2,7 @@
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Transaction;
+use function Pest\Laravel\assertDatabaseHas;
 
 test('Test Store Transaction API', function () {
     $user = User::factory()->create();
@@ -24,6 +25,41 @@ test('Test Store Transaction API', function () {
     );
 
     $response->assertStatus(201);
+});
+
+test('Test Update Transaction API', function(){
+    $user = User::factory()->create();
+
+    $category = Category::create([
+        'name' => 'Test',
+        'user_id' => $user->id
+    ]);
+    $transaction = Transaction::create(
+        [
+            'user_id' => $user->id,
+            'transaction_date' => '2023-02-02',
+            'type' => 'expense',
+            'detail' => 'Testing Api',
+            'amount' => '9999',
+            'category_id' => $category->id
+        ]
+    );
+
+    $resource = $this->actingAs($user)
+    ->patchJson("api/transactions/{$transaction->id}",
+        [
+            'transaction_date' => '2023-02-02',
+            'type' => 'expense',
+            'detail' => 'Testing Api',
+            'amount' => '1231',
+            'category_id' => $category->id
+        ]
+    );
+
+    $resource->assertStatus(200);
+
+    assertDatabaseHas('transactions', ['amount'=>'1231']);
+
 });
 
 test('Test Destroy Transaction API', function(){
