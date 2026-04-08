@@ -10,9 +10,15 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use App\Services\CategoryService;
 
 class CategoryController extends Controller
 {
+
+    public function __construct(
+        private CategoryService $service
+    )
+    {}
     /**
      * Display a listing of the resource.
      */
@@ -37,9 +43,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): RedirectResponse
     {
-        $validated=$request->validated();
-
-        $request->user()->categories()->create($validated);
+        $this->service->store($request->validated(),Auth::id());
 
         return redirect()->route('categories.index');
 
@@ -70,9 +74,7 @@ class CategoryController extends Controller
     {
         abort_if($category->user_id !== Auth::id(), 403);
 
-        $validated=$request->validated();
-
-        $category->update($validated);
+        $this->service->update($category, $request->validated());
 
         return redirect()->route('categories.index')->with('exito', 'Modificado correctamente');
     }
@@ -85,7 +87,7 @@ class CategoryController extends Controller
         abort_if($category->user_id !== Auth::id(), 403);
 
         try{
-            $category->delete();
+            $this->service->destroy($category);
 
             return redirect()->route('categories.index');
         }
