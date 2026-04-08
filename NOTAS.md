@@ -141,5 +141,23 @@ Por lo tanto lo solucionamos creando una categoria dentro del test. De esta mane
 
 ## assertDatabaseHas()
 Esta funcion verifica que los elementos en la tabla coincida con los elementos buscados en el parametro clave/valor, recibe dos parametros assertDatabaseHas(p1,p2), en p1 va el nombre de la tabla y en el p2 va en un array los datos que queremos buscar si coinciden.     
-Por ejemplo; assertDatabaseHas('transactions', ['amount'=>'1231']);
+Por ejemplo; assertDatabaseHas('transactions', ['amount'=>'1231']);.
 
+## Exceptions
+Creamos exceptions para api, porque cuando un error ocurre en una solicitud api no debemos retornar un mensaje en una vista, sino un codigo http con el nombre del error.
+
+## render()
+Lo que hace es que realiza el error, adentro de el va en forma de parametro una funcion que retorna finalmente el error.
+En nuestro caso se uso para renderizar errores de validacion de datos.
+
+## ValidationException
+Es un modelo donde estan los errores. estos errores se representan en dot notation.
+
+## only()
+Lo que hace only() es hacer que unicamente los elementos que se le pasan como parametro sean los unicos que permita entrar. En el caso de LOGIN usamos esto para permitir unicamente una entrada de email y password.
+
+## createToken()
+Crea un token y lo encripta mediante un algoritmo. 
+
+## plainTextToken
+Hace que un token se vuelva texto plano, texto visible. Nosotros lo usamos para hacer pruebas con Thunder Client.
