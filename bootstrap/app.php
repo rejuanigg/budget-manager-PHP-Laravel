@@ -18,7 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function(ValidationException $e, Request $request){
-            return response()->json($e->errors(), status:422);
+            if ($request->expectsJson()){
+                return response()->json($e->errors(), status:422);
+            }
         });
     })->create();
 
