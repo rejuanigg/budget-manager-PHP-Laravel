@@ -161,3 +161,10 @@ Crea un token y lo encripta mediante un algoritmo.
 
 ## plainTextToken
 Hace que un token se vuelva texto plano, texto visible. Nosotros lo usamos para hacer pruebas con Thunder Client.
+
+## Auth::attempt()
+Attempt() gestiona los intentos de autenticacion. Devuelve True si la autenticacion fue exitosa, y de lo contrario False
+
+## currentAccessToken()->delete()
+Usamos currentAccessToken para señalar que estamos hablando del token de acceso actual. Es decir, en vez de usar un $token_id usamos este metodo. 
+Finalmente usamos delete() para eliminar el token.
